@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ProductApi.Models;
+using ProductsApi.Models;
+using Microsoft.Extensions.Options;
 
 namespace ProductApi
 {
@@ -20,8 +22,12 @@ namespace ProductApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ProductContext>(opt =>
-                opt.UseInMemoryDatabase("Products"));
+            services.Configure<InventoryDatabaseSettings>(
+                Configuration.GetSection(nameof(InventoryDatabaseSettings)));
+
+            services.AddSingleton<InventoryDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<InventoryDatabaseSettings>>().Value);
+
             services.AddControllers();
         }
 

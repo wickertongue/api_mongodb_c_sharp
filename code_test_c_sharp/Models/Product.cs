@@ -11,7 +11,11 @@ namespace ProductApi.Models
 
         [BsonElement("Name")]
         public int ProductCode { get; set; }
+
+
         public string Name { get; set; }
+
+
         public int Price { get; set; }
     }
 }

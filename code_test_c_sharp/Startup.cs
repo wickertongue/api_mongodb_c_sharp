@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ProductApi.Models;
-using ProductsApi.Models;
 using Microsoft.Extensions.Options;
 
 namespace ProductApi

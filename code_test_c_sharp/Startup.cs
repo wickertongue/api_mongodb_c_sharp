@@ -21,7 +21,7 @@ namespace ProductApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ProductContext>(opt =>
-            opt.UseInMemoryDatabase("Products"));
+                opt.UseInMemoryDatabase("Products"));
             services.AddControllers();
         }
 

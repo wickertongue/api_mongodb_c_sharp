@@ -1,4 +1,4 @@
-﻿namespace ProductsApi.Models
+﻿namespace ProductApi.Models
 {
     public class InventoryDatabaseSettings : IInventoryDatabaseSettings
     {

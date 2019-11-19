@@ -6,14 +6,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductApi.Models;
+using ProductApi.;
 
-namespace code_test_c_sharp.Controllers
+namespace ProductApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly ProductContext _context;
+        private readonly ProductService _productService;
 
         public ProductController(ProductContext context)
         {

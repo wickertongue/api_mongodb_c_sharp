@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using ProductApi.Models;
 using Microsoft.Extensions.Options;
 using ProductApi.Services;
-using Microsoft.Info.Models;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ProductApi
@@ -36,7 +36,7 @@ namespace ProductApi
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Products", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
         }
 
@@ -50,7 +50,7 @@ namespace ProductApi
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/product.json", "Products");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
             if (env.IsDevelopment())

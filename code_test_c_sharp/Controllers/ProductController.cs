@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProductApi.Models;
-using ProductApi.;
+using ProductApi.Services;
+using System.Collections.Generic;
 
 namespace ProductApi.Controllers
 {
@@ -16,23 +12,19 @@ namespace ProductApi.Controllers
     {
         private readonly ProductService _productService;
 
-        public ProductController(ProductContext context)
+        public ProductController(ProductService productService)
         {
-            _context = context;
+            _productService = productService;
         }
 
-        // GET: api/Product
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
-        {
-            return await _context.Product.ToListAsync();
-        }
+        public ActionResult<List<Product>> Get() =>
+            _productService.Get();
 
-        // GET: api/Product/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(long id)
+        [HttpGet("{id:length(24)}", Name = "GetProduct")]
+        public ActionResult<Product> Get(string id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var product = _productService.Get(id);
 
             if (product == null)
             {
@@ -42,70 +34,42 @@ namespace ProductApi.Controllers
             return product;
         }
 
-        // PUT: api/Product/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(long id, Product product)
+        [HttpPost]
+        public ActionResult<Product> Create(Product product)
         {
-            if (id != product.Id)
+            _productService.Create(product);
+
+            return CreatedAtRoute("GetProduct", new { id = product.Id.ToString() }, product);
+        }
+
+        [HttpPut("{id:length(24)}")]
+        public IActionResult Update(string id, Product productIn)
+        {
+            var product = _productService.Get(id);
+
+            if (product == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(product).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _productService.Update(id, productIn);
 
             return NoContent();
         }
 
-        // POST: api/Product
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        [HttpDelete("{id:length(24)}")]
+        public IActionResult Delete(string id)
         {
-            _context.Product.Add(product);
-            await _context.SaveChangesAsync();
+            var product = _productService.Get(id);
 
-            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
-        }
-
-        // DELETE: api/Product/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Product>> DeleteProduct(long id)
-        {
-            var product = await _context.Product.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            _context.Product.Remove(product);
-            await _context.SaveChangesAsync();
+            _productService.Remove(product.Id);
 
-            return product;
-        }
-
-        private bool ProductExists(long id)
-        {
-            return _context.Product.Any(e => e.Id == id);
+            return NoContent();
         }
     }
 }
-

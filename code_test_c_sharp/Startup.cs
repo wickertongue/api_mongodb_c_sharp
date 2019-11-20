@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using ProductApi.Models;
 using Microsoft.Extensions.Options;
 using ProductApi.Services;
+using Microsoft.Info.Models;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace ProductApi
 {
@@ -31,6 +33,11 @@ namespace ProductApi
             services.AddSingleton<ProductService>();
 
             services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Products", Version = "v1" });
+            });
         }
 
 
@@ -38,6 +45,14 @@ namespace ProductApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/product.json", "Products");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

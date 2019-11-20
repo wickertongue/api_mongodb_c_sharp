@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using ProductApi.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProductApi.Services
 {
@@ -17,10 +18,10 @@ namespace ProductApi.Services
         }
 
         public List<Product> Get() =>
-            _products.Find(Product => true).ToList();
+            _products.Find(product => true).ToList();
 
         public Product Get(string id) =>
-            _products.Find<Product>(Product => Product.Id == id).FirstOrDefault();
+            _products.Find<Product>(product => product.Id == id).FirstOrDefault();
 
         public Product Create(Product product)
         {

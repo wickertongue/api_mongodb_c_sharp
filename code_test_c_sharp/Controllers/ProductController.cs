@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Mvc;
 using ProductApi.Models;
 using ProductApi.Services;

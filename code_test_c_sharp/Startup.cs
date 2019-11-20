@@ -24,11 +24,13 @@ namespace ProductApi
             services.Configure<InventoryDatabaseSettings>(
                 Configuration.GetSection(nameof(InventoryDatabaseSettings)));
 
-            services.AddSingleton<InventoryDatabaseSettings>(sp =>
+            services.AddSingleton<IInventoryDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<InventoryDatabaseSettings>>().Value);
 
             services.AddControllers();
         }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

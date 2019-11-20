@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ProductApi.Models;
 using Microsoft.Extensions.Options;
+using ProductApi.Services;
 
 namespace ProductApi
 {
@@ -25,7 +26,9 @@ namespace ProductApi
                 Configuration.GetSection(nameof(InventoryDatabaseSettings)));
 
             services.AddSingleton<IInventoryDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<InventoryDatabaseSettings>>().Value);
+               sp.GetRequiredService<IOptions<InventoryDatabaseSettings>>().Value);
+
+            services.AddSingleton<ProductService>();
 
             services.AddControllers();
         }

@@ -17,9 +17,9 @@ Create a database using MongoDB within the terminal.
 ```
 db.Products.insertMany(
 	[
-		{'ProductCode':1, 'Name':'Lavender heart', 'Price':925}, 
-		{'ProductCode':2, 'Name':'Personalised cufflinks', 'Price':4500}, 
-		{'ProductCode':3, 'Name':'Kids T-shirt', 'Price':1995}
+		{'Name':'Lavender heart', 'Price':925}, 
+		{'Name':'Personalised cufflinks', 'Price':4500}, 
+		{'Name':'Kids T-shirt', 'Price':1995}
 	]
 )
 ```
